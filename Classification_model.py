@@ -347,8 +347,3 @@ print_prediction(filename)
 
 filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100648-1-0-0.wav'
 print_prediction(filename)
-
-# Class: Given
-
-filename = './Udacity-ML-Capstone/Evaluation audio/siren_1.wav'
-print_prediction(filename)
