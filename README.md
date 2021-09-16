@@ -7,6 +7,7 @@ Steps to Run this code:
 3. run: pip install -r requirements.txt in your shell.
 4. Download the Dataset from the given link in UrbanSound8k.txt
 5. run: python3 Classification_model.py
+6. Choose the Model (MLP or CNN).
 
 For Input:
 You have to provide WAV file as input in the Classification_model.py at the last.
