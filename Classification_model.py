@@ -71,10 +71,10 @@ mfccs = librosa.feature.mfcc(y=librosa_audio, sr=librosa_sample_rate, n_mfcc=40)
 # 2. CNN
 print('1. MLP')
 print('2. CNN')
-x=input('Enter the implementation model number (1 or 2): ')
+xif=input('Enter the implementation model number (1 or 2): ')
 
 # MLP model
-if x=='1':
+if xif=='1':
     def extract_features(file_name):
         try:
             audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
@@ -82,7 +82,7 @@ if x=='1':
             mfccsscaled = np.mean(mfccs.T,axis=0)
             
         except Exception as e:
-            print("Error encountered while parsing file: ", file)
+            print("Error encountered while parsing file: ", file_name)
             return None 
         
         return mfccsscaled
@@ -168,7 +168,6 @@ if x=='1':
     score = model.evaluate(x_test, y_test, verbose=0)
     print("Testing Accuracy: ", score[1], '\n')
 
-
     def extract_feature(file_name):
     
         try:
@@ -177,7 +176,7 @@ if x=='1':
             mfccsscaled = np.mean(mfccs.T,axis=0)
             
         except Exception as e:
-            print("Error encountered while parsing file: ", file)
+            print("Error encountered while parsing file: ", file_name)
             return None, None
 
         return np.array([mfccsscaled])
@@ -185,7 +184,7 @@ if x=='1':
     Classes = ['air_conditioner','car_horn','children_playing','dog_bark','drilling','engine_idling','gun_shot','jackhammer','siren','street_music']
 
     def print_prediction(file_name):
-        prediction_feature = extract_feature(file_name) 
+        prediction_feature = extract_feature('./test/'+file_name) 
 
         predicted_vector = model.predict(prediction_feature)
         predicted_class = np.argmax(predicted_vector)
@@ -193,21 +192,21 @@ if x=='1':
         print("The predicted class is:", Classes[predicted_class], '\n')
 
 # CNN model
-elif x=='2':
+elif xif=='2':
 
     max_pad_len = 174
 
     def extract_features(file_name):
     
-        try:
-            audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
-            mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
-            pad_width = max_pad_len - mfccs.shape[1]
-            mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
+        # try:
+        audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
+        mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
+        pad_width = max_pad_len - mfccs.shape[1]
+        mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
             
-        except Exception as e:
-            print("Error encountered while parsing file: ", file_name)
-            return None 
+        # except Exception as e:
+        #     print("Error encountered while parsing file: ", file_name)
+        #     return None 
         
         return mfccs
 
@@ -310,7 +309,7 @@ elif x=='2':
     Classes = ['air_conditioner','car_horn','children_playing','dog_bark','drilling','engine_idling','gun_shot','jackhammer','siren','street_music']
 
     def print_prediction(file_name):
-        prediction_feature = extract_features(file_name) 
+        prediction_feature = extract_features('./test/'+file_name) 
         # print(prediction_feature)
         prediction_feature = prediction_feature.reshape(1, num_rows, num_columns, num_channels)
 
@@ -320,30 +319,32 @@ elif x=='2':
         print("The predicted class is:", Classes[predicted_class], '\n')
 
 else:
-    print('Enter 1 or 2 .!!!')
+    print('Enter 1 or 2  !!!')
     exit()
 
 
 
+# # Class: Air Conditioner
 
+# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100852-0-0-0.wav' 
+# print_prediction(filename)
 
+# # Class: Drilling
 
-# Class: Air Conditioner
+# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/103199-4-0-0.wav'
+# print_prediction(filename)
 
-filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100852-0-0-0.wav' 
-print_prediction(filename)
+# # Class: Street music 
 
-# Class: Drilling
+# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/101848-9-0-0.wav'
+# print_prediction(filename)
 
-filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/103199-4-0-0.wav'
-print_prediction(filename)
+# # Class: Car Horn 
 
-# Class: Street music 
+# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100648-1-0-0.wav'
+# print_prediction(filename)
 
-filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/101848-9-0-0.wav'
-print_prediction(filename)
+# # Class: Given
 
-# Class: Car Horn 
-
-filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100648-1-0-0.wav'
-print_prediction(filename)
+# filename = './Udacity-ML-Capstone/Evaluation audio/siren_1.wav'
+# print_prediction(filename)

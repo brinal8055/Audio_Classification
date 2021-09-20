@@ -6,8 +6,8 @@ Steps to Run this code:
 2. activate your virtualenv.
 3. run: pip install -r requirements.txt in your shell.
 4. Download the Dataset from the given link in UrbanSound8k.txt
-5. run: python3 Classification_model.py
+5. run: python3 script.py
 6. Choose the Model (MLP or CNN).
 
 For Input:
-You have to provide WAV file as input in the Classification_model.py at the last.
+There should be one 'test' named folder in the same directory, where all the .wav format test files should be store.
