@@ -67,6 +67,10 @@ print('Librosa sample rate:', librosa_sample_rate,'\n')
 mfccs = librosa.feature.mfcc(y=librosa_audio, sr=librosa_sample_rate, n_mfcc=40)
 # print('Shape of MFCCS ', mfccs.shape)
 
+num_rows = 40
+num_columns = 174
+num_channels = 1
+
 # 1. MLP
 # 2. CNN
 print('1. MLP')
@@ -242,10 +246,6 @@ elif xif=='2':
     # split the dataset 
     x_train, x_test, y_train, y_test = train_test_split(X, yy, test_size=0.2, random_state = 42)
 
-    num_rows = 40
-    num_columns = 174
-    num_channels = 1
-
     print(x_train.shape)
     x_train = x_train.reshape(x_train.shape[0], num_rows, num_columns, num_channels)
     x_test = x_test.reshape(x_test.shape[0], num_rows, num_columns, num_channels)
@@ -289,8 +289,7 @@ elif xif=='2':
     num_epochs = 72
     num_batch_size = 256
 
-    checkpointer = ModelCheckpoint(filepath='./Udacity-ML-Capstone/Notebooks/saved_models/weights.best.basic_cnn.hdf5', 
-                                verbose=1, save_best_only=True)
+    checkpointer = ModelCheckpoint(filepath='./Udacity-ML-Capstone/Notebooks/saved_models/weights.best.basic_cnn.hdf5',verbose=1, save_best_only=True)
     start = datetime.now()
 
     model.fit(x_train, y_train, batch_size=num_batch_size, epochs=num_epochs, validation_data=(x_test, y_test), callbacks=[checkpointer], verbose=1)
@@ -322,7 +321,13 @@ else:
     print('Enter 1 or 2  !!!')
     exit()
 
+output = open("parameters.txt","w")
+output.write(xif)
+output.write(str(num_rows)+'\n')
+output.write(str(num_columns)+'\n')
+output.write(str(num_channels)+'\n')
 
+model.save('./models/classification_model')
 
 # # Class: Air Conditioner
 
