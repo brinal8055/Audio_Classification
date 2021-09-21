@@ -322,7 +322,7 @@ else:
     exit()
 
 output = open("parameters.txt","w")
-output.write(xif)
+output.write(xif+'\n')
 output.write(str(num_rows)+'\n')
 output.write(str(num_columns)+'\n')
 output.write(str(num_channels)+'\n')
