@@ -45,7 +45,10 @@ else:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
         pad_width = max_pad_len - mfccs.shape[1]
-        mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
+        if pad_width < 0:
+            mfccs = mfccs[:,:max_pad_len]
+        else:
+            mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
             
         return mfccs
 
@@ -62,4 +65,7 @@ else:
 
 for d in os.listdir("./test"):
     print('Output of the file ' + d + ' is:')
-    print_prediction(d)
+    try:
+        print_prediction(d)
+    except Exception as e:
+        print(e)
