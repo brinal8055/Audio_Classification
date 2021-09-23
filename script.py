@@ -2,6 +2,7 @@ from pandas.core.accessor import DirNamesMixin
 from tensorflow import keras
 import numpy as np
 import librosa
+import sys
 import os
 
 input = open("parameters.txt","r")
@@ -31,11 +32,10 @@ if modelp == '1':
         return np.array([mfccsscaled])
 
     def print_prediction(file_name):
-        prediction_feature = extract_feature('./test/'+file_name) 
+        prediction_feature = extract_feature(sys.argv[1]+file_name) 
 
         predicted_vector = model.predict(prediction_feature)
         predicted_class = np.argmax(predicted_vector)
-        # predicted_class = le.inverse_transform(predicted_vector) 
         print("The predicted class is:", Classes[predicted_class], '\n')
 else:
     max_pad_len = 174
@@ -53,17 +53,15 @@ else:
         return mfccs
 
     def print_prediction(file_name):
-        prediction_feature = extract_features('./test/'+file_name) 
-        # print(prediction_feature)
+        prediction_feature = extract_features(argv[1]+file_name)
         prediction_feature = prediction_feature.reshape(1, num_rows, num_columns, num_channels)
 
         predicted_vector = model.predict(prediction_feature)
         predicted_class = np.argmax(predicted_vector)
-        # predicted_class = le.inverse_transform(predicted_vector) 
         print("The predicted class is:", Classes[predicted_class], '\n')
 
 
-for d in os.listdir("./test"):
+for d in os.listdir(argv[1]):
     print('Output of the file ' + d + ' is:')
     try:
         print_prediction(d)

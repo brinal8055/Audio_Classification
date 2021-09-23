@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import sys
 import os
 import struct
 import librosa
@@ -45,7 +46,7 @@ wavfilehelper = WavFileHelper()
 audiodata = []
 for index, row in metadata.iterrows():
     
-    file_name = os.path.join(os.path.abspath('./UrbanSound8K/audio/'),'fold'+str(row["fold"])+'/',str(row["slice_file_name"]))
+    file_name = os.path.join(os.path.abspath(sys.argv[1]),'fold'+str(row["fold"])+'/',str(row["slice_file_name"]))
     data = wavfilehelper.read_file_properties(file_name)
     audiodata.append(data)
 
@@ -92,7 +93,7 @@ if xif=='1':
         return mfccsscaled
 
     # Set the path to the full UrbanSound dataset 
-    fulldatasetpath = './UrbanSound8K/audio/'
+    fulldatasetpath = sys.argv[1]
 
     metadata = pd.read_csv('./Udacity-ML-Capstone/UrbanSound Dataset sample/metadata/UrbanSound8K.csv')
 
@@ -185,16 +186,6 @@ if xif=='1':
 
         return np.array([mfccsscaled])
 
-    Classes = ['air_conditioner','car_horn','children_playing','dog_bark','drilling','engine_idling','gun_shot','jackhammer','siren','street_music']
-
-    def print_prediction(file_name):
-        prediction_feature = extract_feature('./test/'+file_name) 
-
-        predicted_vector = model.predict(prediction_feature)
-        predicted_class = np.argmax(predicted_vector)
-        # predicted_class = le.inverse_transform(predicted_vector) 
-        print("The predicted class is:", Classes[predicted_class], '\n')
-
 # CNN model
 elif xif=='2':
 
@@ -215,7 +206,7 @@ elif xif=='2':
         return mfccs
 
     # Set the path to the full UrbanSound dataset 
-    fulldatasetpath = './UrbanSound8K/audio/'
+    fulldatasetpath = sys.argv[1]
 
     metadata = pd.read_csv('./Udacity-ML-Capstone/UrbanSound Dataset sample/metadata/UrbanSound8K.csv')
     metadata = metadata.rename(columns={'class': 'class_name'})
@@ -304,18 +295,6 @@ elif xif=='2':
 
     score = model.evaluate(x_test, y_test, verbose=0)
     print("Testing Accuracy: ", score[1])
-
-    Classes = ['air_conditioner','car_horn','children_playing','dog_bark','drilling','engine_idling','gun_shot','jackhammer','siren','street_music']
-
-    def print_prediction(file_name):
-        prediction_feature = extract_features('./test/'+file_name) 
-        # print(prediction_feature)
-        prediction_feature = prediction_feature.reshape(1, num_rows, num_columns, num_channels)
-
-        predicted_vector = model.predict(prediction_feature)
-        predicted_class = np.argmax(predicted_vector)
-        # predicted_class = le.inverse_transform(predicted_vector) 
-        print("The predicted class is:", Classes[predicted_class], '\n')
 
 else:
     print('Enter 1 or 2  !!!')
