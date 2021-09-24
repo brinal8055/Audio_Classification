@@ -12,9 +12,12 @@ num_columns = int(input.readline()[:-1])
 num_channels = int(input.readline()[:-1])
 
 a = 'MLP' if modelp == '1' else 'CNN'
-print('Classification using',a,'\n')
+print('Classification using',a,'\n\nClasses:')
 
 Classes = ['air_conditioner','car_horn','children_playing','dog_bark','drilling','engine_idling','gun_shot','jackhammer','siren','street_music']
+for i in Classes:
+    print(i)
+print('\n')
 model = keras.models.load_model('./models/classification_model')
 
 if modelp == '1':
@@ -32,11 +35,12 @@ if modelp == '1':
         return np.array([mfccsscaled])
 
     def print_prediction(file_name):
-        prediction_feature = extract_feature(sys.argv[1]+file_name) 
+        prediction_feature = extract_feature(sys.argv[1]+'/'+file_name) 
 
         predicted_vector = model.predict(prediction_feature)
         predicted_class = np.argmax(predicted_vector)
-        print("The predicted class is:", Classes[predicted_class], '\n')
+        match = (predicted_vector[0][predicted_class]/np.sum(predicted_vector))*100
+        print("The predicted class is:", Classes[predicted_class], 'with', match, '%', ' accuracy.\n')
 else:
     max_pad_len = 174
 
@@ -53,15 +57,16 @@ else:
         return mfccs
 
     def print_prediction(file_name):
-        prediction_feature = extract_features(argv[1]+file_name)
+        prediction_feature = extract_features(sys.argv[1]+'/'+file_name)
         prediction_feature = prediction_feature.reshape(1, num_rows, num_columns, num_channels)
 
         predicted_vector = model.predict(prediction_feature)
         predicted_class = np.argmax(predicted_vector)
-        print("The predicted class is:", Classes[predicted_class], '\n')
+        match = (predicted_vector[0][predicted_class]/np.sum(predicted_vector))*100
+        print("The predicted class is:", Classes[predicted_class], 'with', match, '%', ' accuracy.\n')
 
 
-for d in os.listdir(argv[1]):
+for d in os.listdir(sys.argv[1]):
     print('Output of the file ' + d + ' is:')
     try:
         print_prediction(d)

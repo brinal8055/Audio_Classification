@@ -307,28 +307,3 @@ output.write(str(num_columns)+'\n')
 output.write(str(num_channels)+'\n')
 
 model.save('./models/classification_model')
-
-# # Class: Air Conditioner
-
-# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100852-0-0-0.wav' 
-# print_prediction(filename)
-
-# # Class: Drilling
-
-# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/103199-4-0-0.wav'
-# print_prediction(filename)
-
-# # Class: Street music 
-
-# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/101848-9-0-0.wav'
-# print_prediction(filename)
-
-# # Class: Car Horn 
-
-# filename = './Udacity-ML-Capstone/UrbanSound Dataset sample/audio/100648-1-0-0.wav'
-# print_prediction(filename)
-
-# # Class: Given
-
-# filename = './Udacity-ML-Capstone/Evaluation audio/siren_1.wav'
-# print_prediction(filename)

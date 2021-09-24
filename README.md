@@ -8,7 +8,7 @@ Steps to Run this code:
 4. Download the Dataset from the given link in UrbanSound8k.txt
 5. run: python3 Classification_model.py "Train folder path"
 6. Choose the Model (MLP or CNN).
-7. run: python3 script.py "Test folder path(./test/)"
+7. run: python3 script.py "Test folder path(Eg. ./test)"
 
 For Input:
 There should be one 'test' named folder in the same directory, where all the .wav format test files should be store.
